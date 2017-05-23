@@ -20,7 +20,6 @@ public class RaycastEasel : MonoBehaviour
     void Update()
     {
         Transform parent = transform.parent;
-        Debug.DrawRay(parent.transform.position, parent.transform.rotation * Vector3.forward);
         Ray ray = new Ray(parent.transform.position, parent.transform.rotation * Vector3.forward);
         float rayDistance;
         if (plane.Raycast(ray, out rayDistance))
