@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
 
-public class CubeElasticity : MonoBehaviour
+public class RaycastEasel : MonoBehaviour
 {
 
     private Plane plane;

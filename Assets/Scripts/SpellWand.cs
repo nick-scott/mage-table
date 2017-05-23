@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class ControllerSpellInitiator : MonoBehaviour
+    public class SpellWand : MonoBehaviour
     {
         private SteamVR_TrackedObject _trackedObj;
 
@@ -12,7 +12,7 @@ namespace Assets.Scripts
 
         private GameObject _markerCube;
 
-        private ControllerSpellSelector _spellSelector;
+        private SpellShield _spellSelector;
 
         private readonly List<GameObject> _spellBucket = new List<GameObject>();
 
@@ -32,7 +32,7 @@ namespace Assets.Scripts
 
         private GameObject _debugText;
 
-        private CubeElasticity _cubeElasticity;
+        private RaycastEasel _raycastEasel;
 
         private GameObject _spellDrawingSphere;
 
@@ -50,8 +50,8 @@ namespace Assets.Scripts
             print("Initialized");
             _spellOrb = GameObject.Find("SpellOrb");
             _markerCube = GameObject.Find("MarkerCube");
-            _spellSelector = FindObjectOfType<ControllerSpellSelector>();
-            _cubeElasticity = FindObjectOfType<CubeElasticity>();
+            _spellSelector = FindObjectOfType<SpellShield>();
+            _raycastEasel = FindObjectOfType<RaycastEasel>();
             _spellDrawingSphere = GameObject.Find("Sphere");
             _spellDrawingSphere.GetComponent<MeshRenderer>().enabled = false;
             _debugText = GameObject.Find("DebugText");
@@ -69,7 +69,7 @@ namespace Assets.Scripts
         private void Update()
         {
             var touchpadAxis = Controller.GetAxis();
-            Vector3 markerDrawerPosition = _cubeElasticity.getRealLocation();
+            Vector3 markerDrawerPosition = _raycastEasel.getRealLocation();
             if (touchpadAxis != Vector2.zero)
             {
             }
@@ -109,13 +109,13 @@ namespace Assets.Scripts
             if (Controller.GetHairTriggerDown())
             {
                 GameObject originCube = GameObject.Find("OriginCube");
-                _spellSelector = FindObjectOfType<ControllerSpellSelector>();
+                _spellSelector = FindObjectOfType<SpellShield>();
                 _firstMarkerVector = originCube.transform.position;
                 Vector3 planeRotation = Controller.transform.rot.eulerAngles;
                 planeRotation.z = 0;
                 planeRotation.x = 0;
                 _firstMarkerQuaternion = Quaternion.Euler(planeRotation);
-                _cubeElasticity.setPlane(_firstMarkerQuaternion * Vector3.forward, _firstMarkerVector);
+                _raycastEasel.setPlane(_firstMarkerQuaternion * Vector3.forward, _firstMarkerVector);
                 _spellDrawingSphere.GetComponent<MeshRenderer>().enabled = true;
                 DrawMarkerCube(_firstMarkerVector);
                 _triggerDown = true;
@@ -127,7 +127,7 @@ namespace Assets.Scripts
                 if (_castSpell)
                 {
                     Debug.Log("Spell cast complete");
-                    _spellSelector = FindObjectOfType<ControllerSpellSelector>();
+                    _spellSelector = FindObjectOfType<SpellShield>();
                     GameObject originCube = GameObject.Find("OriginCube");
                     GameObject clonie = Instantiate(_spellOrb, originCube.transform.position, Controller.transform.rot);
                     String spell = _spellSelector != null ? _spellSelector.getCurrentSpell() : "FIRE";
@@ -153,7 +153,7 @@ namespace Assets.Scripts
                 _triggerDown = false;
                 _traceStarted = false;
                 _castSpell = false;
-                _cubeElasticity.resetPlane();
+                _raycastEasel.resetPlane();
                 ClearObjectBucket(_markerBucket);
                 _vectorQueue.Clear();
                 _spellDrawingSphere.GetComponent<MeshRenderer>().enabled = false;

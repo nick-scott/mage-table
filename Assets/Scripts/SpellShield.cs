@@ -4,7 +4,7 @@ using Valve.VR;
 
 namespace Assets.Scripts
 {
-    public class ControllerSpellSelector : MonoBehaviour
+    public class SpellShield : MonoBehaviour
     {
         private SteamVR_TrackedObject trackedObj;
 
