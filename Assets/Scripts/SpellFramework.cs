@@ -19,6 +19,8 @@ public class SpellFramework : MonoBehaviour
 	private Quaternion _firstMarkerQuaternion;
 	private static GameObject _spellDrawingSphere;
 	private GameObject _spellOrb;
+	private ParticleSystem _spellSpark;
+	private GameObject _debugText;
 
 
 	public static SpellFramework CreateComponent(GameObject where, SteamVR_Controller.Device controller)
@@ -34,9 +36,12 @@ public class SpellFramework : MonoBehaviour
 		_raycastEasel = FindObjectOfType<RaycastEasel>();
 		_spellOrb = GameObject.Find("SpellOrb");
 		_wandTip = GameObject.Find("MarkerCube");
-
+		_spellSpark = GameObject.Find("SpellSpark").GetComponent<ParticleSystem>();
+		_spellSpark.Stop();
 		_spellDrawingSphere = GameObject.Find("Sphere");
 		_spellDrawingSphere.GetComponent<MeshRenderer>().enabled = false;
+		_debugText = GameObject.Find("DebugText");
+
 	}
 
 	// Update is called once per frame
@@ -68,7 +73,9 @@ public class SpellFramework : MonoBehaviour
 				_castSpell = true;
 				Shape shape = ShapeIdentifier.getShape(_markerBucket);
 				Debug.Log(shape);
-//	            _debugText.GetComponent<TextMesh>().text = shape.ToString();
+				_debugText.GetComponent<TextMesh>().text = shape.ToString();
+				_spellDrawingSphere.GetComponent<MeshRenderer>().enabled = false;
+				_spellSpark.Stop();
 				ClearObjectBucket(_markerBucket);
 			}
 		}
@@ -104,6 +111,8 @@ public class SpellFramework : MonoBehaviour
 				  "\nPlane Rotation: " + planeRotation);
 		_raycastEasel.setPlane(_firstMarkerQuaternion * Vector3.forward, _firstMarkerVector);
 		_spellDrawingSphere.GetComponent<MeshRenderer>().enabled = true;
+		_spellSpark.Play();
+
 		DrawMarkerCube(_firstMarkerVector);
 		_triggerDown = true;
 		Debug.Log("Spell Trace Started");
@@ -144,6 +153,8 @@ public class SpellFramework : MonoBehaviour
 		ClearObjectBucket(_markerBucket);
 		_vectorQueue.Clear();
 		_spellDrawingSphere.GetComponent<MeshRenderer>().enabled = false;
+		_spellSpark.Stop();
+		_spellSpark.Clear();
 		return clonie;
 	}
 

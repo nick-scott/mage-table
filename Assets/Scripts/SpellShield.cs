@@ -40,24 +40,31 @@ namespace Assets.Scripts
             var touchpadAxis = Controller.GetAxis();
             if (touchpadAxis != Vector2.zero)
             {
+                SkinnedMeshRenderer skinnedMeshRenderer = GameObject.Find("Wand").GetComponentInChildren<SkinnedMeshRenderer>();
+                Material[] materials = skinnedMeshRenderer.materials;
+
                 Debug.Log(gameObject.name + touchpadAxis);
                 if (isTopZone() && currentSpell != Spell.FIRE)
                 {
                     Debug.Log(gameObject.name + " Top Zone (Fire)");
                     Controller.TriggerHapticPulse(3999);
                     currentSpell = Spell.FIRE;
+                    skinnedMeshRenderer.material = materials[0];
+
                 }
                 else if (isBottomZone() && currentSpell != Spell.AIR)
                 {
                     Debug.Log(gameObject.name + " Bottom Zone (Air)");
                     Controller.TriggerHapticPulse(3999);
                     currentSpell = Spell.AIR;
+                    skinnedMeshRenderer.material = materials[1];
                 }
                 else if (isLeftZone() && currentSpell != Spell.EARTH)
                 {
                     Debug.Log(gameObject.name + " Left Zone (Earth)");
                     Controller.TriggerHapticPulse(3999);
                     currentSpell = Spell.EARTH;
+                    skinnedMeshRenderer.material = materials[2];
                 }
 
                 else if (isRightZone() && currentSpell != Spell.WATER)
@@ -65,6 +72,7 @@ namespace Assets.Scripts
                     Debug.Log(gameObject.name + " Right Zone (Water)");
                     Controller.TriggerHapticPulse(3999);
                     currentSpell = Spell.WATER;
+                    skinnedMeshRenderer.material = materials[3];
                 }
             }
         }

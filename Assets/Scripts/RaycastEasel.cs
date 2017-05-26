@@ -48,4 +48,9 @@ public class RaycastEasel : MonoBehaviour
     {
         return position;
     }
+
+    public Plane getPlane()
+    {
+        return plane;
+    }
 }

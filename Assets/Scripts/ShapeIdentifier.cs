@@ -35,7 +35,7 @@ public class ShapeIdentifier : MonoBehaviour
         Vector3 averageNormalVector = Vector3.zero;
         Vector3 firstNormalVector = Vector3.zero;
         int edgeThresholdCount = 0;
-        int VECTORS_FOR_EDGE = 4;
+        int VECTORS_FOR_EDGE = 6;
         double ANGLE_THRESHOLD = 30;
         int foundEdges = 0;
 

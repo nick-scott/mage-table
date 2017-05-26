@@ -22,7 +22,6 @@ namespace Assets.Scripts
         }
 
         // Use this for initialization
-        // ReSharper disable once UnusedMember.Local
         private void Start()
         {
             print("Initialized");
@@ -31,14 +30,12 @@ namespace Assets.Scripts
             spellFramework = SpellFramework.CreateComponent(transform.parent.gameObject, Controller);
         }
 
-        // ReSharper disable once UnusedMember.Local
         private void Awake()
         {
             _trackedObj = GetComponent<SteamVR_TrackedObject>();
         }
 
         // Update is called once per frame
-        // ReSharper disable once UnusedMember.Local
         private void Update()
         {
             var touchpadAxis = Controller.GetAxis();
